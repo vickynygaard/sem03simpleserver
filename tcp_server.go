@@ -1,14 +1,16 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"net"
 	"sync"
 	"github.com/vickynygaard/is105sem03/mycrypt"
+	"github.com/vickynygaard/funtemps/conv"
+	"strconv"
 	"strings"
-	"errors"
-
+        "errors"
 )
 
 func main() {
@@ -53,11 +55,11 @@ func main() {
                                                  if err !=  nil  {
                                                          log.Println(err)
                                                 }
-                                                _, err = conn.Write([]byte(string(FarhenheitString)))
+						kryptertMelding := mycrypt.Krypter([]rune(FarhenheitString), mycrypt.ALF_SEM03, 4)
+						log.Println("Kryptert melding: ", string(kryptertMelding)))
+                                                _, err = conn.Write([]byte(string("Kryptert melding"))
                                        default:
-                                                 _, err = c.Write(buf[:n])
-            
-                                          
+                                           _, err != c.Write(buf[:n])
                  
                                         } 
                                         if err != nil {
@@ -72,4 +74,33 @@ func main() {
         }()
         wg.Wait()
 
+}
+func  CelsiusToFarhenheitString(celsius string) (string, error) {
+	var fahrFloat float64
+	var err error
+       
+	if celsiusFloat, err := strconv.ParseFloat(celsius, 64); err == nil {
+		fahrFloat = conv.CelsiusToFarhenheit(celsiusFloat)
+	}
+	fahrString := fmt.Sprintf("%.1f", fahrFloat)
+	return fahrString, err
+}
+func conv.CelsiusToFarhenheitLine(line string) (string, error) {
+
+        dividedString := strings.Split(line, ";")
+	var err error
+	
+	if (len(dividedString) == 4) {
+		dividedString[3], err = CelsiusToFarhenheitString(dividedString[3])
+		if err != nil {
+			return "", err
+		}
+	} else {
+		return "", errors.New("linje har ikke forventet format")
+	}
+	return strings.Join(dividedString, ";"), nil
+	
+	/*	
+	return "Kjevik;SN39040;18.03.2022 01:50;42.8", err
+        */
 }
