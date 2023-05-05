@@ -49,7 +49,7 @@ func main() {
                                          case "ping":
                                                 kryptertMelding := mycrypt.Krypter([]rune("pong"), mycrypt.ALF_SEM03, 4)
                                                 log.Println("Kryptert melding: ", string(kryptertMelding))
-                                                _, err = conn.Write([]byte(string(kryptertMelding)))
+                                                _, err = conn.Write([]byte(string(kryptertMelding))
                                          case "Kjevik;SN39040;18.03.2022 01:50;6":
                                                  FarhenheitString, err := CelsiusToFarhenheitLine(string(dekryptertMelding))
                                                  if err !=  nil  {
@@ -60,7 +60,6 @@ func main() {
                                                 _, err = conn.Write([]byte(string("Kryptert melding"))
                                        default:
                                            _, err != c.Write(buf[:n])
-                 
                                         } 
                                         if err != nil {
                                                 if err != io.EOF {
